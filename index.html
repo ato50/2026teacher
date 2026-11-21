@@ -19,17 +19,17 @@
       text-align: center;
     }
     .card {
-      background: rgba(30, 41, 59, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(30, 41, 59, 0.94);
+      border: 1px solid rgba(148, 163, 184, 0.2);
       border-radius: 24px;
       padding: 36px 24px;
-      max-width: 400px;
+      max-width: 420px;
       width: 100%;
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.42);
     }
     .badge {
       display: inline-block;
-      background: rgba(34, 197, 94, 0.15);
+      background: rgba(34, 197, 94, 0.16);
       color: #4ade80;
       font-size: 0.85rem;
       font-weight: 600;
@@ -38,15 +38,21 @@
       margin-bottom: 14px;
     }
     h1 {
-      font-size: 1.4rem;
+      font-size: 1.38rem;
       font-weight: 700;
-      margin: 0 0 8px;
+      margin: 0 0 12px;
       line-height: 1.3;
     }
-    p.sub {
-      color: #94a3b8;
-      font-size: 0.95rem;
-      margin: 0 0 26px;
+    blockquote.quote-box {
+      margin: 0 0 24px;
+      padding: 16px 18px;
+      background: rgba(15, 23, 42, 0.55);
+      border-left: 3px solid #4ade80;
+      border-radius: 12px;
+      color: #e2e8f0;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      font-style: italic;
     }
     button.play-btn {
       background: #22c55e;
@@ -58,7 +64,7 @@
       font-weight: 700;
       cursor: pointer;
       width: 100%;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       transition: transform 0.15s ease, background 0.15s ease;
     }
     button.play-btn:active {
@@ -66,7 +72,7 @@
     }
     audio {
       width: 100%;
-      margin-top: 6px;
+      margin-top: 4px;
       border-radius: 12px;
     }
     .error {
@@ -81,36 +87,70 @@
   <div class="card">
     <div class="badge">24 Kasım Öğretmenler Günü</div>
     <h1>Size Özel Bir Mesaj Var</h1>
-    <p class="sub">Dinlemek için aşağıdaki butona dokunun</p>
-    
+    <blockquote class="quote-box" id="quoteText"></blockquote>
+
     <button class="play-btn" id="bigPlayBtn">▶ Ses Kaydını Dinle</button>
     <audio id="player" controls playsinline preload="metadata"></audio>
     <p class="error" id="errorMsg">Ses dosyası yüklenemedi. Lütfen bağlantıyı kontrol edin.</p>
   </div>
 
   <script>
+    const sozler = {
+      1: "Sabrınız ve emeğinizle nice kalbe dokundunuz; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      2: "Bilgiyi sevgiyle buluşturan duruşunuz için teşekkürler; Öğretmenler Gününüz kutlu olsun.",
+      3: "Açtığınız her yeni ufuk için minnettarız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      4: "Sıcak yaklaşımınız ve rehberliğiniz her zaman yol gösterir; Öğretmenler Gününüz kutlu olsun.",
+      5: "Emekle ördüğünüz her ders iz bırakır; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      6: "İçtenliğiniz ve özverinizle sınıflara umut kattınız; Öğretmenler Gününüz kutlu olsun.",
+      7: "Her öğrencide bıraktığınız güzel izler hiç silinmez; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      8: "Gülümseyen yüzünüz ve sabrınızla ilham oldunuz; Öğretmenler Gününüz kutlu olsun.",
+      9: "Emeklerinizle büyüyen her hayal için teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      10: "Değer katan sözleriniz ve katkınız hiç unutulmaz; Öğretmenler Gününüz kutlu olsun.",
+      11: "İyi ki yollarımız kesişti; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      12: "Emeğinizin sıcaklığı her derste hissedilir; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      13: "Anlayışınız ve desteğiniz için gönülden teşekkürler; Öğretmenler Gününüz kutlu olsun.",
+      14: "Geleceğe ekilen her güzel tohumda iziniz var; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      15: "Samimiyetiniz ve gayretinizle çevrenizi aydınlattınız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      16: "Sabırla işlediğiniz her değer yarınlara ışık olur; Öğretmenler Gününüz kutlu olsun.",
+      17: "Emek dolu günleriniz ve güzel yüreğiniz için teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      18: "Her zorluğu kolaylaştıran sakinliğiniz için minnettarız; Öğretmenler Gününüz kutlu olsun.",
+      19: "Öğretirken büyüten ve ilham veren emeğiniz daim olsun; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      20: "Güven veren duruşunuz ve desteğiniz için teşekkürler; Öğretmenler Gününüz kutlu olsun.",
+      21: "Narin dokunuşunuz ve sabrınızla nice yolu açtınız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      22: "Emeğinizle güzelleşen her an için gönülden teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      23: "İçten desteğiniz ve katkınız her zaman kıymetli; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      24: "Sözlerinizdeki samimiyet ve emek hiç eskimez; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      25: "Güler yüzünüz ve enerjinizle ortamı ısıttınız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      26: "Her adımda yanımızda hissettirdiğiniz güven için teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      27: "Emeğinizle şekillenen her güzel anı için minnettarız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      28: "İncelikli yaklaşımınız ve özveriniz için teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      29: "Sıcaklığınız ve ilginizle gönüllerde yer ettiniz; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      30: "Üreten, paylaşan ve yol gösteren varlığınız daim olsun; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      31: "Zarafetiniz ve emeğinizle iz bıraktınız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      32: "Sabrınız ve içtenliğinizle nice kapı açtınız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      33: "Emekleriniz ve güzel kalbiniz için gönülden teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      34: "Umut veren bakışınız ve desteğiniz hiç unutulmaz; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      35: "İçtenliğiniz ve katkılarınız için çok teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      36: "Emekle yoğrulmuş her anınız için minnettarız; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      37: "Güven ve saygı uyandıran duruşunuz için teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun.",
+      38: "Emeğinizle aydınlanan yarınlar için gönülden teşekkürler; 24 Kasım Öğretmenler Gününüz kutlu olsun."
+    };
+
     const params = new URLSearchParams(window.location.search);
     const rawId = parseInt(params.get("id"), 10);
-
-    // 1 ile 38 arasında geçerli bir numara yoksa varsayılan olarak 1'i açar
     const id = (!isNaN(rawId) && rawId >= 1 && rawId <= 38) ? rawId : 1;
 
-    // Dosyaları 1.mp3, 2.mp3 ... 38.mp3 olarak yüklediysen bu satır doğrudan çalışır.
-    // NOT: Dosyaları 01.mp3, 02.mp3 gibi başına sıfır koyarak yüklediysen 
-    // aşağıdaki satırı: const dosyaAdi = `${String(id).padStart(2, "0")}.mp3`; yap.
-    const dosyaAdi = `${id}.mp3`;
+    document.getElementById("quoteText").textContent = `“${sozler[id]}”`;
 
+    const dosyaAdi = `${id}.mp3`;
     const audio = document.getElementById("player");
     const btn = document.getElementById("bigPlayBtn");
     const errorMsg = document.getElementById("errorMsg");
 
     audio.src = dosyaAdi;
 
-    // Sayfa açılır açılmaz otomatik oynatmayı dener
     window.addEventListener("load", () => {
-      audio.play().catch(() => {
-        // Mobil tarayıcılar otomatik sesi engellerse kullanıcı büyük butona basar
-      });
+      audio.play().catch(() => {});
     });
 
     btn.addEventListener("click", () => {
